@@ -42,6 +42,18 @@ class Settings(BaseSettings):
     # --- CORS ---
     CORS_ORIGINS: list[str] = ["*"]
 
+    # --- LLM (Ollama / OpenAI) ---
+    # Provedor de LLM a ser usado: "ollama" (padrão, gratuito) ou "openai".
+    LLM_PROVIDER: str = "ollama"
+
+    # Configuração do Ollama (padrão)
+    OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
+    OLLAMA_MODEL: str = "llama3.2"
+
+    # Configuração do OpenAI
+    OPENAI_API_KEY: str = ""
+    OPENAI_MODEL: str = "gpt-5-mini"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
