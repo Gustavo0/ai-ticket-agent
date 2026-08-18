@@ -1,0 +1,41 @@
+# =============================================================================
+# AI Ticket Agent API - Arquivos ignorados pelo Git
+# =============================================================================
+
+# --- Variáveis de ambiente (NUNCA versionar) ---
+.env
+.env.local
+*.env
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Ambiente virtual ---
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Testes / Cobertura ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# --- Ferramentas / IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# --- Builds / Distribuição ---
+build/
+dist/
+*.egg-info/
+.eggs/
