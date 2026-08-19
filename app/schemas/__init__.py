@@ -4,6 +4,7 @@ Schemas Pydantic da aplicação.
 
 from app.schemas.ticket import (
     TicketBase,
+    TicketClassification,
     TicketCreate,
     TicketListResponse,
     TicketRead,
@@ -13,6 +14,7 @@ from app.schemas.ticket import (
 
 __all__ = [
     "TicketBase",
+    "TicketClassification",
     "TicketCreate",
     "TicketListResponse",
     "TicketRead",

@@ -83,6 +83,31 @@ class TicketBase(BaseModel):
         return _normalize_category(v)
 
 
+class TicketClassification(BaseModel):
+    """
+    Contrato de saída estruturada do LLM para classificação de chamados.
+
+    O modelo deve produzir uma resposta JSON com estes campos, que são
+    validados e normalizados para os valores canônicos do domínio.
+    """
+
+    title: str
+    category: str
+    priority: str
+
+    @field_validator("priority")
+    @classmethod
+    def validate_priority(cls, v: str) -> str:
+        """Valida e normaliza a prioridade retornada pelo LLM."""
+        return _normalize_priority(v)
+
+    @field_validator("category", mode="before")
+    @classmethod
+    def validate_category(cls, v: str) -> str:
+        """Valida e normaliza a categoria retornada pelo LLM."""
+        return _normalize_category(v)
+
+
 class TicketCreate(TicketBase):
     """Dados necessários para criar um novo ticket."""
 
