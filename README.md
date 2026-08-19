@@ -25,6 +25,17 @@ Saída estruturada:
 }
 ```
 
+## 🧠 Classificadores
+
+O projeto possui **dois classificadores independentes** para comparação:
+
+| Classificador | Arquivo | Descrição |
+|---------------|---------|-----------|
+| **Heuristic Ticket Classifier** | `app/services/structuring.py` | Baseline heurístico baseado em palavras-chave ponderadas |
+| **LLM Ticket Classifier** | `app/services/llm_classifier.py` | Classificação semântica via **Llama** (Ollama) com structured output |
+
+O objetivo é responder: **"Para este problema, o Llama realmente é melhor do que nosso classificador heurístico?"**
+
 ## 🛠️ Tecnologias
 
 | Tecnologia     | Versão   | Propósito                     |
@@ -34,6 +45,7 @@ Saída estruturada:
 | Uvicorn        | 0.34+    | Servidor ASGI                 |
 | SQLAlchemy     | 2.0+     | ORM para banco de dados       |
 | Pydantic       | 2.12+    | Validação e serialização      |
+| Ollama         | —        | LLM local (Llama)             |
 | pytest         | 8.0+     | Testes automatizados          |
 
 > **Nota sobre o banco:** por padrão, a API usa **SQLite em memória**
@@ -52,6 +64,8 @@ ai-ticket-agent/
 ├── AGENTS.md               # Guia para agentes de IA
 ├── PRD.md                  # Documento de requisitos do produto
 ├── test_api.py             # Testes rápidos (script único, legado)
+├── scripts/
+│   └── evaluate_classifiers.py  # Script de comparação heurística vs LLM
 ├── app/
 │   ├── __init__.py
 │   ├── crud.py             # Operações de banco de dados
@@ -75,11 +89,17 @@ ai-ticket-agent/
 │       ├── __init__.py
 │       ├── classifier.py        # TicketClassifier (wrapper)
 │       ├── classifier_service.py # Serviço de classificação (API pública)
+│       ├── llm_classifier.py    # LLMClassifier (Llama via Ollama)
+│       ├── llm.py               # LLMService (legado, Ollama/OpenAI)
 │       └── structuring.py       # TicketStructuringService (heurísticas)
 └── tests/
     ├── __init__.py
     ├── conftest.py         # Fixtures compartilhadas
+    ├── evaluation/
+    │   └── ticket_dataset.json  # Dataset de avaliação (ground truth)
     ├── test_health.py      # Testes do health check
+    ├── test_llm_classifier.py   # Testes do LLMClassifier
+    ├── test_llm_service.py      # Testes do LLMService (legado)
     ├── test_models.py      # Testes do modelo ORM
     ├── test_schemas.py     # Testes dos schemas Pydantic
     ├── test_services.py    # Testes dos serviços
@@ -96,7 +116,22 @@ ai-ticket-agent/
 python -m pip install -r requirements.txt
 ```
 
-### 2. Iniciar o servidor
+### 2. Instalar/configurar Ollama
+
+1. Baixe e instale o Ollama: https://ollama.com/download
+2. Inicie o servidor:
+
+```bash
+ollama serve
+```
+
+3. Baixe o modelo configurado (padrão: `llama3.2`):
+
+```bash
+ollama pull llama3.2
+```
+
+### 3. Iniciar o servidor
 
 ```bash
 python -m uvicorn main:app --reload
@@ -110,7 +145,7 @@ python main.py
 
 A API estará disponível em: **http://localhost:8000**
 
-### 3. Acessar a documentação interativa
+### 4. Acessar a documentação interativa
 
 | Documentação   | URL                              |
 |----------------|----------------------------------|
@@ -214,17 +249,16 @@ curl -X PUT http://localhost:8000/api/v1/tickets/1 \
 
 ## 🧪 Testes
 
-### Testes pytest (padrão)
+### Testes unitários (não exigem Ollama)
 
 ```bash
-# Todos os testes
 python -m pytest
+```
 
-# Com saída detalhada
-python -m pytest -v
+### Testes de integração (exigem Ollama rodando)
 
-# Testes específicos
-python -m pytest tests/test_schemas.py
+```bash
+python -m pytest -m integration
 ```
 
 ### Script de testes legado
@@ -233,7 +267,26 @@ python -m pytest tests/test_schemas.py
 python test_api.py
 ```
 
+## 🧪 Experimento de Comparação
+
+Execute o script para comparar o classificador heurístico com o LLM:
+
+```bash
+python scripts/evaluate_classifiers.py
+```
+
+O script lê o dataset em `tests/evaluation/ticket_dataset.json`, executa cada caso contra ambos os classificadores e imprime:
+
+- Resultado por caso (categoria e prioridade);
+- Acertos de categoria e prioridade;
+- Percentuais de acerto;
+- Tempo de execução (total e médio por ticket).
+
+**Requisito:** Ollama rodando localmente (`ollama serve`).
+
 ## 🔄 Como o chamado é estruturado
+
+### Heuristic Ticket Classifier
 
 O serviço `TicketStructuringService` analisa o texto do chamado e infere:
 
@@ -243,6 +296,15 @@ O serviço `TicketStructuringService` analisa o texto do chamado e infere:
 | **category**| Palavras-chave no texto (erro, pagamento, servidor, senha, etc.)       |
 | **priority**| Palavras-chave de severidade (urgente, crítico, fora do ar, etc.)      |
 | **status** | Sempre iniciado como `aberto`                                          |
+
+### LLM Ticket Classifier
+
+O serviço `LLMClassifier` usa **Llama via Ollama** com structured output:
+
+1. Envia a descrição ao modelo com um prompt de sistema;
+2. Usa `response_format={"type": "json_object"}` para garantir JSON estruturado;
+3. Valida a resposta com o schema Pydantic `TicketClassification`;
+4. Normaliza categoria e prioridade para os valores canônicos.
 
 ### Categorias reconhecidas
 

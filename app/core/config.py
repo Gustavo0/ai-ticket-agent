@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://localhost:11434/v1"
     OLLAMA_MODEL: str = "llama3.2"
 
-    # Configuração do OpenAI
+    # Configuração do OpenAI (legado - não usado pelo novo LLMClassifier)
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL: str = "gpt-5-mini"
 

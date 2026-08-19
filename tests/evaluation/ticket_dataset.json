@@ -1,0 +1,102 @@
+[
+  {
+    "description": "Minha VPN não quer conectar mais, aparece erro de autenticação ao tentar estabelecer o túnel.",
+    "expected_category": "Infraestrutura",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "O sistema de pagamentos está retornando HTTP 500 em todas as transações com cartão de crédito desde as 14h.",
+    "expected_category": "Financeiro",
+    "expected_priority": "Crítica"
+  },
+  {
+    "description": "Esqueci minha senha e o link de recuperação não chega no meu e-mail corporativo.",
+    "expected_category": "Suporte",
+    "expected_priority": "Média"
+  },
+  {
+    "description": "A API de relatórios está demorando mais de 30 segundos para responder quando filtro por um período grande.",
+    "expected_category": "Melhoria",
+    "expected_priority": "Média"
+  },
+  {
+    "description": "O consumidor Kafka parou de processar mensagens da fila de pedidos sem nenhum erro aparente nos logs.",
+    "expected_category": "Infraestrutura",
+    "expected_priority": "Crítica"
+  },
+  {
+    "description": "Ao tentar gerar o relatório mensal de vendas, o sistema exibe uma exception de NullPointerException.",
+    "expected_category": "Bug",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "Preciso de acesso ao ambiente de homologação para testar a nova integração com o gateway de pagamento.",
+    "expected_category": "Suporte",
+    "expected_priority": "Baixa"
+  },
+  {
+    "description": "A cobrança do cartão foi feita em duplicidade para o pedido #12345, preciso do estorno.",
+    "expected_category": "Financeiro",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "O banco de dados de produção está com uso de disco em 95% e as queries estão ficando cada vez mais lentas.",
+    "expected_category": "Infraestrutura",
+    "expected_priority": "Crítica"
+  },
+  {
+    "description": "Seria ótimo se o sistema tivesse um dashboard com métricas de SLA por equipe de suporte.",
+    "expected_category": "Melhoria",
+    "expected_priority": "Baixa"
+  },
+  {
+    "description": "Não consigo fazer login no sistema após a atualização de ontem, a tela fica em branco.",
+    "expected_category": "Bug",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "O serviço de autenticação está intermitente, alguns usuários conseguem acessar e outros recebem timeout.",
+    "expected_category": "Infraestrutura",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "Preciso de ajuda para configurar o cliente SMTP no meu Outlook para usar o novo servidor de e-mail.",
+    "expected_category": "Suporte",
+    "expected_priority": "Baixa"
+  },
+  {
+    "description": "A API de pedidos está retornando 404 para pedidos que existem no banco, investiguei e o problema parece ser no cache.",
+    "expected_category": "Bug",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "O certificado SSL do domínio principal expirou e os clientes estão recebendo aviso de conexão não segura.",
+    "expected_category": "Infraestrutura",
+    "expected_priority": "Crítica"
+  },
+  {
+    "description": "Gostaria de sugerir uma melhoria no fluxo de devolução: hoje o cliente precisa preencher 5 formulários diferentes.",
+    "expected_category": "Melhoria",
+    "expected_priority": "Média"
+  },
+  {
+    "description": "O relatório de faturamento está vindo com valores incorretos para o mês de junho, comparei com o sistema legado.",
+    "expected_category": "Financeiro",
+    "expected_priority": "Alta"
+  },
+  {
+    "description": "O servidor de aplicação reiniciou sozinho três vezes hoje, não encontrei nada nos logs de erro.",
+    "expected_category": "Infraestrutura",
+    "expected_priority": "Crítica"
+  },
+  {
+    "description": "Preciso de um novo usuário no sistema de BI para o estagiário do time de dados.",
+    "expected_category": "Suporte",
+    "expected_priority": "Baixa"
+  },
+  {
+    "description": "A fila de processamento de pagamentos está acumulando mensagens e os pedidos não estão sendo confirmados.",
+    "expected_category": "Financeiro",
+    "expected_priority": "Crítica"
+  }
+]
